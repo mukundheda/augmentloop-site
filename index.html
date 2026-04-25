@@ -342,9 +342,9 @@
     .stat:nth-child(3), .stat:nth-child(4) { border-top: 1px solid var(--rule); }
   }
   @media (max-width: 520px) {
-    .stats { grid-template-columns: 1fr; }
-    .stat { border-left: 0 !important; padding-left: 0 !important; border-top: 1px solid var(--rule); }
-    .stat:first-child { border-top: 0; }
+    .stat { padding: 24px 16px; }
+    .stat:first-child, .stat:nth-child(3) { padding-left: 12px; }
+    .stat-num { font-size: 36px; }
   }
 
   /* ---------- Section header ---------- */
@@ -1023,6 +1023,34 @@
   .foot-bottom .mono { color: var(--mute); }
   @media (max-width: 760px) {
     .foot-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .final { padding: 80px 0; }
+  }
+
+  /* ---------- Mobile polish (≤520px) ---------- */
+  @media (max-width: 520px) {
+    .nav-inner { height: 56px; }
+    .hero { padding-top: 100px; padding-bottom: 64px; }
+    .hero h1 { margin-top: 20px !important; }
+    .hero-sub { font-size: 15.5px; }
+    .section { padding: 64px 0; }
+    .section-head { padding-bottom: 24px; margin-bottom: 32px; }
+    .accordion-header { padding: 24px 0; }
+    .accordion-client { font-size: 20px; }
+    .accordion-inner { padding-bottom: 28px; }
+    .why-card .why-icon { width: 64px; height: 64px; border-radius: 12px; }
+    .why-card .why-icon svg { width: 30px; height: 30px; }
+    .why-card { padding: 28px 0; }
+    .why-card h3 { font-size: 20px; margin-bottom: 8px; }
+    .step { padding: 32px 0; }
+    .step h3 { font-size: 22px; margin-top: 16px; }
+    .step p { margin-top: 14px; }
+    .final { padding: 64px 0; }
+    .final .label-row { margin-bottom: 28px; padding-bottom: 16px; }
+    .final h2 { font-size: 28px; }
+    .final p { margin-top: 20px; }
+    .final .btn { margin-top: 28px; }
+    .foot { padding: 40px 0 32px; }
+    .foot-bottom { margin-top: 40px; padding-top: 20px; }
   }
 
 </style>
