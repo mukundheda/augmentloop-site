@@ -1,0 +1,1783 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AugmentLoop - AI Automation for Agencies</title>
+<meta name="description" content="AugmentLoop builds production AI automation for agencies. Content, CRM, outbound, and document workflows that run without manual work.">
+<link rel="canonical" href="https://augmentloop.com/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="AugmentLoop - AI Automation for Agencies">
+<meta property="og:description" content="We build, test, and maintain production automation for agencies. Content, CRM, outbound, documents.">
+<meta property="og:url" content="https://augmentloop.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://augmentloop.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Favicon -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.remove('no-js')</script>
+<style>
+  :root {
+    --paper: #f3efe7;
+    --paper-2: #ebe6db;
+    --ink: #1a1814;
+    --ink-2: #3a362e;
+    --mute: #6b6559;
+    --rule: #d6cfc0;
+    --rule-2: #c6bfae;
+    --accent: #c0652a;
+    --accent: oklch(0.68 0.19 42);
+    --accent-ink: #2a1405;
+    --maxw: 1280px;
+    --pad: clamp(20px, 4vw, 48px);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: multiply;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding-inline: var(--pad);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .no-js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ---------- Focus visible ---------- */
+  [tabindex="0"]:focus-visible,
+  .btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    transition: background 220ms ease, border-color 220ms ease, backdrop-filter 220ms ease;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.scrolled {
+    background: rgba(243, 239, 231, 0.72);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom-color: var(--rule);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Inter Tight", sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+  .logo-mark {
+    width: 18px; height: 18px;
+    position: relative;
+    display: inline-block;
+  }
+  .logo-mark::before, .logo-mark::after {
+    content:"";
+    position:absolute;
+    inset: 0;
+    border: 1.6px solid var(--ink);
+    border-radius: 50%;
+  }
+  .logo-mark::after {
+    transform: translateX(7px) scale(0.72);
+    border-color: var(--accent);
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-links a.link {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    transition: color 160ms;
+  }
+  .nav-links a.link:hover { color: var(--ink); }
+  .nav-links a.link::before {
+    content: "";
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--rule-2);
+    border-radius: 50%;
+    margin-right: 8px;
+    transform: translateY(-2px);
+    transition: background 160ms;
+  }
+  .nav-links a.link:hover::before { background: var(--accent); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 10px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    border: 1px solid var(--ink);
+    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    transform: translateY(-1px);
+  }
+  .btn .arrow {
+    width: 16px; height: 16px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform 220ms ease;
+  }
+  .btn:hover .arrow { transform: translateX(3px); }
+  .btn svg { width: 14px; height: 14px; }
+
+  .btn-lg {
+    padding: 14px 20px 14px 24px;
+    font-size: 15.5px;
+  }
+
+  @media (max-width: 640px) {
+    .nav-links .link { display: none; }
+  }
+
+  /* ---------- Shared ---------- */
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mute);
+    font-weight: 500;
+  }
+  .mono .dot {
+    display: inline-block;
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-right: 8px;
+    transform: translateY(-2px);
+  }
+  h1, h2, h3 {
+    font-family: "Inter Tight", sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin: 0;
+  }
+  h1 { font-size: clamp(40px, 6.4vw, 84px); line-height: 0.98; letter-spacing: -0.035em; }
+  h2 { font-size: clamp(32px, 4.4vw, 52px); line-height: 1.03; letter-spacing: -0.03em; }
+  h3 { font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding-top: 148px;
+    padding-bottom: 200px;
+    position: relative;
+    overflow: visible;
+  }
+  .hero .wrap { position: relative; }
+
+  .hero-glyph {
+    position: absolute;
+    right: -40px;
+    top: 80px;
+    width: min(720px, 62vw);
+    height: min(720px, 62vw);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.9;
+  }
+  .hero-glyph svg { width: 100%; height: 100%; display: block; }
+  .hero-glyph .ring, .hero-glyph .ring-accent { fill: none; }
+  .hero-glyph .ring { stroke: var(--rule-2); stroke-width: 1; }
+  .hero-glyph .ring-accent { stroke: var(--accent); stroke-width: 1.25; opacity: 0.85; }
+  .hero-glyph .tick { stroke: var(--rule-2); stroke-width: 1; }
+  .hero-glyph .tick-accent { stroke: var(--accent); stroke-width: 1.25; }
+  .hero-glyph .cross { stroke: var(--mute); stroke-width: 1; opacity: 0.4; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-glyph .spin { transform-origin: 50% 50%; animation: heroSpin 80s linear infinite; }
+    .hero-glyph .spin-rev { transform-origin: 50% 50%; animation: heroSpin 120s linear infinite reverse; }
+  }
+  @keyframes heroSpin { to { transform: rotate(360deg); } }
+
+  .hero h1 {
+    max-width: 15ch;
+    position: relative;
+    z-index: 1;
+    font-size: clamp(44px, 8.2vw, 112px);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+  .hero h1 .accent {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink);
+    position: relative;
+  }
+  .hero h1 .accent::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0.04em;
+    height: 0.08em;
+    background: var(--accent);
+    opacity: 0.55;
+  }
+  .hero-foot {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 56px;
+    align-items: end;
+    margin-top: 56px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-sub {
+    font-size: clamp(16.5px, 1.35vw, 18.5px);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 52ch;
+    margin: 0;
+  }
+  .hero-cta { justify-self: start; }
+  @media (max-width: 760px) {
+    .hero { padding-top: 120px; padding-bottom: 96px; }
+    .hero-foot { grid-template-columns: 1fr; gap: 28px; margin-top: 32px; }
+    .hero-glyph { right: -30%; top: 40%; width: 120vw; height: 120vw; opacity: 0.6; }
+  }
+
+  /* ---------- Stats ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .stat {
+    padding: 56px 28px 52px 0;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+    position: relative;
+  }
+  .stat:first-child { border-left: 0; padding-left: 0; }
+  .stat-num {
+    font-family: "Inter Tight", sans-serif;
+    font-size: clamp(44px, 5vw, 64px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-num .unit {
+    font-size: 0.48em;
+    color: var(--mute);
+    letter-spacing: 0;
+    font-weight: 400;
+    margin-left: 2px;
+  }
+  .stat-label {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.4;
+    max-width: 22ch;
+  }
+  @media (max-width: 900px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { padding: 36px 20px; }
+    .stat:nth-child(3) { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); }
+    .stat:nth-child(3), .stat:nth-child(4) { border-top: 1px solid var(--rule); }
+  }
+  @media (max-width: 520px) {
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-left: 0 !important; padding-left: 0 !important; border-top: 1px solid var(--rule); }
+    .stat:first-child { border-top: 0; }
+  }
+
+  /* ---------- Section header ---------- */
+  .section { padding: 120px 0; }
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    align-items: baseline;
+    padding-bottom: 56px;
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  .section-head .mono { padding-top: 8px; }
+  .section-head h2 { max-width: 20ch; }
+  @media (max-width: 760px) {
+    .section { padding: 72px 0; }
+    .section-head { grid-template-columns: 1fr; gap: 18px; padding-bottom: 32px; margin-bottom: 40px; }
+  }
+
+  /* ---------- Accordion case studies ---------- */
+  .accordion-item {
+    border-top: 1px solid var(--rule);
+  }
+  .accordion-item:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 0;
+    cursor: pointer;
+    user-select: none;
+    transition: padding 200ms ease;
+  }
+  .accordion-header:hover .accordion-client { color: var(--accent); }
+  .accordion-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .accordion-client {
+    font-family: "Inter Tight", sans-serif;
+    font-weight: 500;
+    font-size: clamp(22px, 2.6vw, 32px);
+    letter-spacing: -0.02em;
+    transition: color 160ms;
+  }
+  .accordion-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    color: var(--accent-ink);
+    background: #f0e1d2;
+    background: color-mix(in oklab, var(--accent) 18%, var(--paper));
+    padding: 4px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+  }
+  .accordion-tag .pulse {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: relative;
+  }
+  .accordion-tag .pulse::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.6); opacity: 0.6; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  .accordion-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .accordion-preview {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: opacity 300ms ease;
+  }
+  .accordion-item.open .accordion-preview {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .preview-metric {
+    text-align: right;
+  }
+  .preview-metric .pm-value {
+    font-family: "Inter Tight", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .preview-metric .pm-value .dollar {
+    color: var(--accent);
+  }
+  .preview-metric .pm-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+  .preview-divider {
+    width: 1px;
+    height: 28px;
+    background: var(--rule);
+    flex-shrink: 0;
+  }
+  @media (max-width: 760px) {
+    .accordion-preview { display: none; }
+  }
+
+  .accordion-chevron {
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--rule-2);
+    transition: transform 300ms ease, background 160ms ease, border-color 160ms ease;
+    flex-shrink: 0;
+  }
+  .accordion-header:hover .accordion-chevron {
+    border-color: var(--accent);
+  }
+  .accordion-item.open .accordion-chevron {
+    transform: rotate(180deg);
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .accordion-item.open .accordion-chevron svg { stroke: var(--paper); }
+  .accordion-chevron svg {
+    width: 14px; height: 14px;
+    stroke: var(--ink-2);
+    stroke-width: 1.5;
+    fill: none;
+    transition: stroke 160ms;
+  }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 400ms ease, opacity 300ms ease;
+    opacity: 0;
+  }
+  .accordion-item.open .accordion-body {
+    opacity: 1;
+  }
+  .accordion-inner {
+    padding-bottom: 40px;
+  }
+  .case-cred {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    color: var(--mute);
+    line-height: 1.6;
+    margin: 0 0 20px;
+    max-width: 72ch;
+    letter-spacing: 0.01em;
+  }
+  .case-para {
+    margin: 0;
+    font-size: 16.5px;
+    color: var(--ink-2);
+    line-height: 1.65;
+    max-width: 62ch;
+  }
+  .case-para + .case-para { margin-top: 12px; }
+  .case-metrics {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .case-metric {
+    padding: 20px 20px 4px 0;
+    border-left: 1px solid var(--rule);
+    padding-left: 20px;
+  }
+  .case-metric:first-child { border-left: 0; padding-left: 0; }
+  .case-metric .k {
+    font-family: "Inter Tight", sans-serif;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .case-metric .v {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+  }
+  .sys-cred {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--mute);
+    letter-spacing: 0.02em;
+    margin: 0 0 10px;
+  }
+  @media (max-width: 860px) {
+    .case-metrics { grid-template-columns: 1fr; }
+    .case-metric { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 16px; }
+    .case-metric:first-child { border-top: 0; padding-top: 20px; }
+  }
+  @media (max-width: 640px) {
+    .accordion-left { flex-wrap: wrap; gap: 10px; }
+  }
+
+  /* ---------- Why Us ---------- */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .why-card {
+    padding: 40px 32px 44px 0;
+    border-left: 1px solid var(--rule);
+    padding-left: 32px;
+  }
+  .why-card:first-child { border-left: 0; padding-left: 0; }
+  .why-card { text-align: center; }
+  .why-card .why-icon {
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    background: #f0e2d5;
+    background: color-mix(in oklab, var(--accent) 12%, var(--paper));
+    border-radius: 16px;
+    margin: 0 auto 28px;
+  }
+  .why-card .why-icon svg {
+    width: 38px; height: 38px;
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    fill: none;
+  }
+  /* Animated icons */
+  @media (prefers-reduced-motion: no-preference) {
+    .why-card:nth-child(1) .why-icon svg {
+      animation: iconRock 3s ease-in-out infinite;
+      transform-origin: 70% 70%;
+    }
+    .why-card:nth-child(2) .why-icon svg {
+      animation: iconRing 3s ease-in-out infinite;
+      transform-origin: top center;
+    }
+    .why-card:nth-child(3) .why-icon svg {
+      animation: iconBounce 2.8s ease-in-out infinite;
+    }
+  }
+  @keyframes iconRock {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(12deg); }
+    75% { transform: rotate(-8deg); }
+  }
+  @keyframes iconRing {
+    0%, 100% { transform: rotate(0deg); }
+    10% { transform: rotate(10deg); }
+    20% { transform: rotate(-8deg); }
+    30% { transform: rotate(5deg); }
+    40% { transform: rotate(0deg); }
+  }
+  @keyframes iconBounce {
+    0%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-3px); }
+    60% { transform: translateY(1px); }
+  }
+  .why-card h3 {
+    font-family: "Inter Tight", sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .why-card p {
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  /* Why card hover */
+  .why-card {
+    transition: transform 250ms ease, background 250ms ease;
+    border-radius: 4px;
+    position: relative;
+  }
+  .why-card:hover {
+    transform: translateY(-4px);
+    background: #f1ece3;
+    background: color-mix(in oklab, var(--accent) 4%, var(--paper));
+  }
+  .why-card:hover .why-icon {
+    background: #eddccb;
+    background: color-mix(in oklab, var(--accent) 22%, var(--paper));
+    transition: background 250ms ease;
+  }
+  @media (max-width: 760px) {
+    .why-grid { grid-template-columns: 1fr; }
+    .why-card { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding: 32px 0; }
+    .why-card:first-child { border-top: 0; }
+    .why-card:hover { transform: none; }
+  }
+
+  /* ---------- Services ---------- */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .svc-card {
+    padding: 32px 28px 36px 0;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, background 200ms ease;
+  }
+  .no-js .svc-card {
+    opacity: 1;
+    transform: none;
+  }
+  .svc-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .svc-card:first-child { border-left: 0; padding-left: 0; }
+  .svc-card:nth-child(4),
+  .svc-card:nth-child(5),
+  .svc-card:nth-child(6) { border-top: 1px solid var(--rule); }
+  .svc-card:nth-child(4) { border-left: 0; padding-left: 0; }
+
+  /* Service card visual */
+  .svc-visual {
+    height: 110px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1ece2;
+    background: color-mix(in oklab, var(--accent) 5%, var(--paper));
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .svc-visual svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Animation classes for service visuals */
+  @media (prefers-reduced-motion: no-preference) {
+    /* Content: sliding blocks */
+    .anim-pipeline .block {
+      animation: pipeSlide 3s ease-in-out infinite;
+      opacity: 0;
+    }
+    .anim-pipeline .block:nth-child(1) { animation-delay: 0s; }
+    .anim-pipeline .block:nth-child(2) { animation-delay: 0.6s; }
+    .anim-pipeline .block:nth-child(3) { animation-delay: 1.2s; }
+    @keyframes pipeSlide {
+      0% { transform: translateX(-30px); opacity: 0; }
+      20% { opacity: 1; }
+      60% { transform: translateX(40px); opacity: 1; }
+      80% { opacity: 0; }
+      100% { transform: translateX(40px); opacity: 0; }
+    }
+
+    /* CRM: data dots flowing */
+    .anim-flow .dot {
+      animation: flowDot 2.5s ease-in-out infinite;
+      opacity: 0;
+    }
+    .anim-flow .dot:nth-child(4) { animation-delay: 0s; }
+    .anim-flow .dot:nth-child(5) { animation-delay: 0.4s; }
+    .anim-flow .dot:nth-child(6) { animation-delay: 0.8s; }
+    @keyframes flowDot {
+      0% { opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Outbound: checkmarks appearing */
+    .anim-fanout .check {
+      opacity: 0;
+      animation: checkPop 3s ease-out infinite;
+    }
+    .anim-fanout .check:nth-child(4) { animation-delay: 0.3s; }
+    .anim-fanout .check:nth-child(5) { animation-delay: 0.8s; }
+    .anim-fanout .check:nth-child(6) { animation-delay: 1.3s; }
+    @keyframes checkPop {
+      0%, 15% { opacity: 0; transform: scale(0.5); }
+      25% { opacity: 1; transform: scale(1.1); }
+      35%, 80% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1); }
+    }
+
+    /* Documents: scan line */
+    .anim-scan .scanline {
+      animation: scanDown 2.8s ease-in-out infinite;
+    }
+    @keyframes scanDown {
+      0% { transform: translateY(-24px); opacity: 0; }
+      10% { opacity: 1; }
+      50% { transform: translateY(24px); opacity: 1; }
+      60% { opacity: 0; }
+      100% { transform: translateY(-24px); opacity: 0; }
+    }
+
+    /* AI: branching dots */
+    .anim-branch .traveler {
+      opacity: 0;
+      animation: branchTravel 3s ease-in-out infinite;
+    }
+    .anim-branch .traveler:nth-child(5) { animation-delay: 0s; }
+    .anim-branch .traveler:nth-child(6) { animation-delay: 0.5s; }
+    .anim-branch .traveler:nth-child(7) { animation-delay: 1s; }
+    @keyframes branchTravel {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Custom: lines drawing */
+    .anim-nodes line {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: drawLine 2.5s ease-in-out infinite;
+    }
+    .anim-nodes line:nth-child(5) { animation-delay: 0.2s; }
+    .anim-nodes line:nth-child(6) { animation-delay: 0.5s; }
+    .anim-nodes line:nth-child(7) { animation-delay: 0.8s; }
+    .anim-nodes line:nth-child(8) { animation-delay: 1.1s; }
+    @keyframes drawLine {
+      0% { stroke-dashoffset: 60; }
+      40% { stroke-dashoffset: 0; }
+      70% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: 60; }
+    }
+  }
+
+  /* Service card hover + tilt */
+  .svc-card {
+    border-radius: 4px;
+    position: relative;
+  }
+  .svc-card:hover {
+    will-change: transform;
+  }
+  .svc-card:hover {
+    background: #f2ede4;
+    background: color-mix(in oklab, var(--accent) 3%, var(--paper));
+  }
+  .svc-card:hover .svc-visual {
+    background: #ede2d4;
+    background: color-mix(in oklab, var(--accent) 10%, var(--paper));
+  }
+  .svc-card h3 {
+    font-family: "Inter Tight", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin: 0 0 10px;
+    transition: color 200ms ease;
+  }
+  .svc-card:hover h3 { color: var(--accent); }
+  .svc-card p {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .svc-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+    display: block;
+  }
+  @media (max-width: 900px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .svc-card:nth-child(3) { border-top: 1px solid var(--rule); }
+    .svc-card:nth-child(3) { border-left: 0; padding-left: 0; }
+    .svc-card:nth-child(4) { border-left: 1px solid var(--rule); padding-left: 28px; }
+    .svc-card:nth-child(5) { border-left: 0; padding-left: 0; }
+  }
+  @media (max-width: 520px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .svc-card { border-left: 0 !important; padding-left: 0 !important; border-top: 1px solid var(--rule); }
+    .svc-card:first-child { border-top: 0; }
+    .svc-visual { height: 90px; }
+  }
+
+  /* ---------- Process ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .step {
+    padding: 40px 28px 48px 0;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+    position: relative;
+  }
+  .step:first-child { border-left: 0; padding-left: 0; }
+  .step-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    color: var(--accent-ink);
+    background: #eddccc;
+    background: color-mix(in oklab, var(--accent) 20%, var(--paper));
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    display: inline-block;
+  }
+  .step h3 {
+    margin-top: 20px;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .step p {
+    margin-top: 18px;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .step-tick {
+    position: absolute;
+    top: 0; left: 0;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  .step:first-child .step-tick { left: 0; }
+  .step:not(:first-child) .step-tick { left: 28px; }
+  /* Step hover */
+  .step {
+    transition: background 250ms ease;
+    border-radius: 4px;
+  }
+  .step:hover {
+    background: #f1ece3;
+    background: color-mix(in oklab, var(--accent) 4%, var(--paper));
+  }
+  .step:hover .step-tick {
+    width: 100%;
+    transition: width 400ms ease;
+  }
+  .step:hover .step-num {
+    background: var(--accent);
+    color: var(--paper);
+    transition: background 200ms ease, color 200ms ease;
+  }
+  .step:hover h3 {
+    color: var(--accent);
+    transition: color 200ms ease;
+  }
+  @media (max-width: 900px) {
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .step:nth-child(3) { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); }
+    .step:nth-child(3), .step:nth-child(4) { border-top: 1px solid var(--rule); }
+    .step:nth-child(3) .step-tick { left: 0; }
+  }
+  @media (max-width: 520px) {
+    .steps { grid-template-columns: 1fr; }
+    .step { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding: 36px 0; }
+    .step:first-child { border-top: 0; padding-top: 0; }
+    .step .step-tick { left: 0; }
+  }
+
+  /* ---------- Final CTA ---------- */
+  .final {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 120px 0;
+    border-radius: 4px;
+    margin: 0 var(--pad) 64px;
+    margin-inline: clamp(0px, 2vw, 32px);
+    position: relative;
+    overflow: hidden;
+  }
+  .final::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+  }
+  .final .wrap { max-width: 1100px; }
+  .final h2 { color: var(--paper); max-width: 18ch; }
+  .final .mono { color: rgba(243, 239, 231, 0.55); }
+  .final p {
+    margin-top: 28px;
+    color: rgba(243, 239, 231, 0.72);
+    font-size: clamp(16.5px, 1.35vw, 18.5px);
+    max-width: 54ch;
+    line-height: 1.55;
+  }
+  .final .label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(243, 239, 231, 0.12);
+  }
+  .final .btn {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--paper);
+    margin-top: 40px;
+  }
+  .final .btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  /* ---------- Footer ---------- */
+  .foot {
+    border-top: 1px solid var(--rule);
+    padding: 48px 0 40px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .foot .logo { font-size: 20px; }
+  .foot-col .mono { display: block; margin-bottom: 10px; }
+  .foot-col a, .foot-col span {
+    display: block;
+    font-size: 14.5px;
+    color: var(--ink-2);
+    padding: 6px 0;
+  }
+  .foot-col a:hover { color: var(--accent); }
+  .foot-bottom {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .foot-bottom .mono { color: var(--mute); }
+  @media (max-width: 760px) {
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="logo" aria-label="AugmentLoop home">
+      <span class="logo-mark" aria-hidden="true"></span>
+      AugmentLoop
+    </a>
+    <div class="nav-links">
+      <a href="#work" class="link">Case Studies</a>
+      <a href="#about" class="link">About</a>
+      <a href="https://calendly.com/mukund-augmentloop/30min" class="btn">
+        Let's talk
+        <span class="arrow" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-glyph" aria-hidden="true">
+      <svg viewBox="0 0 600 600">
+        <circle class="ring" cx="300" cy="300" r="298"/>
+        <circle class="ring" cx="300" cy="300" r="240"/>
+        <circle class="ring-accent" cx="300" cy="300" r="180"/>
+        <circle class="ring" cx="300" cy="300" r="120"/>
+        <circle class="ring" cx="300" cy="300" r="60"/>
+        <line class="cross" x1="0" y1="300" x2="600" y2="300"/>
+        <line class="cross" x1="300" y1="0" x2="300" y2="600"/>
+        <g class="spin">
+          <g>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(30 300 300)"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(60 300 300)"/>
+            <line class="tick-accent" x1="300" y1="2" x2="300" y2="22" transform="rotate(90 300 300)"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(120 300 300)"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(150 300 300)"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(180 300 300)"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(210 300 300)"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(240 300 300)"/>
+            <line class="tick-accent" x1="300" y1="2" x2="300" y2="22" transform="rotate(270 300 300)"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(300 300 300)"/>
+            <line class="tick" x1="300" y1="2" x2="300" y2="22" transform="rotate(330 300 300)"/>
+          </g>
+        </g>
+        <g class="spin-rev">
+          <line class="tick-accent" x1="300" y1="120" x2="300" y2="138"/>
+          <line class="tick" x1="300" y1="120" x2="300" y2="134" transform="rotate(45 300 300)"/>
+          <line class="tick" x1="300" y1="120" x2="300" y2="134" transform="rotate(90 300 300)"/>
+          <line class="tick" x1="300" y1="120" x2="300" y2="134" transform="rotate(135 300 300)"/>
+          <line class="tick-accent" x1="300" y1="120" x2="300" y2="138" transform="rotate(180 300 300)"/>
+          <line class="tick" x1="300" y1="120" x2="300" y2="134" transform="rotate(225 300 300)"/>
+          <line class="tick" x1="300" y1="120" x2="300" y2="134" transform="rotate(270 300 300)"/>
+          <line class="tick" x1="300" y1="120" x2="300" y2="134" transform="rotate(315 300 300)"/>
+        </g>
+        <circle cx="300" cy="300" r="3" fill="var(--accent)"/>
+      </svg>
+    </div>
+
+    <h1 style="margin-top:40px;">
+      AI systems that <span class="accent">run your operations</span> while you close deals.
+    </h1>
+
+    <div class="hero-foot">
+      <p class="hero-sub">
+        We build, test, and maintain production automation for agencies. Your team stops doing ops by hand and starts closing deals. No templates, no off-the-shelf shortcuts.
+      </p>
+      <a href="https://calendly.com/mukund-augmentloop/30min" class="btn btn-lg hero-cta">
+        Let's talk
+        <span class="arrow" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Stats -->
+<section aria-label="Stats" class="wrap reveal" style="padding: 0;">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num"><span style="color: var(--accent);" data-count="15">0</span><span class="unit">h/wk</span></div>
+      <div class="stat-label">Time given back to clients</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><span data-count="1.5">0</span><span class="unit">M+</span></div>
+      <div class="stat-label">Followers across client brands</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><span style="color: var(--accent);" data-count="48">0</span><span class="unit">K+</span></div>
+      <div class="stat-label">Avg reach per automated post</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><span data-count="4">0</span></div>
+      <div class="stat-label">Industries served</div>
+    </div>
+  </div>
+</section>
+
+<!-- Case Studies -->
+<section id="work" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono"><span class="dot"></span>1 / Case Studies</span>
+      <h2>Some of our work.</h2>
+    </div>
+
+    <!-- Ji Martial Arts -->
+    <div class="accordion-item open">
+      <div class="accordion-header" role="button" tabindex="0" aria-expanded="true" aria-controls="panel-ji">
+        <div class="accordion-left">
+          <span class="accordion-client">Ji Martial Arts</span>
+          <span class="accordion-tag"><span class="pulse"></span>LIVE</span>
+        </div>
+        <div class="accordion-right">
+          <div class="accordion-preview">
+            <div class="preview-metric">
+              <div class="pm-value"><span class="dollar">$4K+</span>/mo</div>
+              <div class="pm-label">Est. content savings</div>
+            </div>
+            <div class="preview-divider"></div>
+            <div class="preview-metric">
+              <div class="pm-value">48K+</div>
+              <div class="pm-label">Avg reach per reel</div>
+            </div>
+          </div>
+          <div class="accordion-chevron">
+            <svg viewBox="0 0 16 16"><polyline points="4 6 8 10 12 6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-body" id="panel-ji" role="region">
+        <div class="accordion-inner">
+          <p class="case-cred">
+            1.5M+ followers. 3 Guinness World Records. Featured on NPR, FOX, Israel Adesanya podcast. Represented by Connect Management (Google, Netflix, Sony roster).
+          </p>
+          <p class="case-para">
+            Their team coordinated daily content by hand. Scheduling, resizing, captioning, posting.
+          </p>
+          <p class="case-para">
+            Now a system does it. Generated, rendered, posted. Zero manual steps. Running daily since February 2026.
+          </p>
+          <div class="case-metrics">
+            <div class="case-metric">
+              <div class="k">48K+</div>
+              <div class="v">Avg reach per reel</div>
+            </div>
+            <div class="case-metric">
+              <div class="k">Daily</div>
+              <div class="v">Content, zero manual work</div>
+            </div>
+            <div class="case-metric">
+              <div class="k">Feb 2026</div>
+              <div class="v">Running since</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rivina Recruitment -->
+    <div class="accordion-item">
+      <div class="accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-rivina">
+        <div class="accordion-left">
+          <span class="accordion-client">Rivina Recruitment</span>
+          <span class="accordion-tag"><span class="pulse"></span>LIVE</span>
+        </div>
+        <div class="accordion-right">
+          <div class="accordion-preview">
+            <div class="preview-metric">
+              <div class="pm-value"><span class="dollar">$23K+</span>/yr</div>
+              <div class="pm-label">Est. payroll saved</div>
+            </div>
+            <div class="preview-divider"></div>
+            <div class="preview-metric">
+              <div class="pm-value">15h/wk</div>
+              <div class="pm-label">Back to the team</div>
+            </div>
+          </div>
+          <div class="accordion-chevron">
+            <svg viewBox="0 0 16 16"><polyline points="4 6 8 10 12 6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-body" id="panel-rivina" role="region">
+        <div class="accordion-inner">
+          <p class="case-para">
+            Every candidate intake: 45 minutes across three tools. Copy data, search for duplicates, create the record, upload the resume. By hand. For every single candidate.
+          </p>
+          <p class="case-para">
+            Now the form submits and the system handles it. Smart dedup, automatic CRM entry, resume upload. Nothing entered twice, nothing dropped.
+          </p>
+          <div class="case-metrics">
+            <div class="case-metric">
+              <div class="k">45 to 2 min</div>
+              <div class="v">Per intake</div>
+            </div>
+            <div class="case-metric">
+              <div class="k">15h/wk</div>
+              <div class="v">Back to the team</div>
+            </div>
+            <div class="case-metric">
+              <div class="k">0</div>
+              <div class="v">Dropped candidates</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Automation - Allix GmbH -->
+    <div class="accordion-item">
+      <div class="accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-allix">
+        <div class="accordion-left">
+          <span class="accordion-client">Allix GmbH</span>
+          <span class="accordion-tag"><span class="pulse"></span>LIVE</span>
+        </div>
+        <div class="accordion-right">
+          <div class="accordion-preview">
+            <div class="preview-metric">
+              <div class="pm-value"><span class="dollar">$18K+</span>/yr</div>
+              <div class="pm-label">Est. admin costs saved</div>
+            </div>
+            <div class="preview-divider"></div>
+            <div class="preview-metric">
+              <div class="pm-value">Zero</div>
+              <div class="pm-label">Manual filing</div>
+            </div>
+          </div>
+          <div class="accordion-chevron">
+            <svg viewBox="0 0 16 16"><polyline points="4 6 8 10 12 6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-body" id="panel-allix" role="region">
+        <div class="accordion-inner">
+          <p class="case-cred">
+            Swiss workflow automation firm. 15+ years in business. Serves SMEs across the DACH region.
+          </p>
+          <p class="case-para">
+            Every invoice had to be manually filed from their ERP into the document management system. Staff time spent on data entry instead of client work.
+          </p>
+          <p class="case-para">
+            Now invoices flow automatically. ERP to archive, filed and indexed. No human touch. Expanding to additional document types across their client portfolio.
+          </p>
+          <div class="case-metrics">
+            <div class="case-metric">
+              <div class="k">Zero</div>
+              <div class="v">Manual filing</div>
+            </div>
+            <div class="case-metric">
+              <div class="k">ERP to DMS</div>
+              <div class="v">Fully automated</div>
+            </div>
+            <div class="case-metric">
+              <div class="k">Expanding</div>
+              <div class="v">Additional doc types</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Outbound Pipeline -->
+    <div class="accordion-item">
+      <div class="accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-outbound">
+        <div class="accordion-left">
+          <span class="accordion-client">Outbound Pipeline</span>
+        </div>
+        <div class="accordion-right">
+          <div class="accordion-preview">
+            <div class="preview-metric">
+              <div class="pm-value">2.5x</div>
+              <div class="pm-label">Reply rate vs generic</div>
+            </div>
+          </div>
+          <div class="accordion-chevron">
+            <svg viewBox="0 0 16 16"><polyline points="4 6 8 10 12 6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-body" id="panel-outbound" role="region">
+        <div class="accordion-inner">
+          <p class="case-para">
+            Sales teams waste hours researching prospects and writing emails that sound like everyone else's. Low reply rates, high cost per meeting.
+          </p>
+          <p class="case-para">
+            This system does the research automatically: LinkedIn activity, company signals, pain-point matching. Writes personalized outreach with automated QA checks before anything sends. More replies, less busywork.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legal Intake -->
+    <div class="accordion-item">
+      <div class="accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-legal">
+        <div class="accordion-left">
+          <span class="accordion-client">Legal Intake</span>
+        </div>
+        <div class="accordion-right">
+          <div class="accordion-preview">
+            <div class="preview-metric">
+              <div class="pm-value">~90%</div>
+              <div class="pm-label">Less data entry</div>
+            </div>
+            <div class="preview-divider"></div>
+            <div class="preview-metric">
+              <div class="pm-value">3rd / 200+</div>
+              <div class="pm-label">Hackathon placement</div>
+            </div>
+          </div>
+          <div class="accordion-chevron">
+            <svg viewBox="0 0 16 16"><polyline points="4 6 8 10 12 6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-body" id="panel-legal" role="region">
+        <div class="accordion-inner">
+          <p class="case-para">
+            Paralegals spent hours manually extracting data from police reports and entering it into case management systems. Slow intake, risk of missed details.
+          </p>
+          <p class="case-para">
+            This system reads the report, pulls the structured data, creates the case record, generates retainer documents, and emails the client. Built at a hackathon, placed 3rd out of 200+ teams.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Why Us -->
+<section class="section" style="padding-top: 40px;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono"><span class="dot"></span>2 / Why Us</span>
+      <h2>Why work with us.</h2>
+    </div>
+
+    <div class="why-grid reveal">
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3>Custom-built to how you actually work</h3>
+        <p>We don't sell templates or off-the-shelf setups. Every system is built around your team's actual workflows, tools, and data.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><line x1="12" y1="2" x2="12" y2="4"/></svg>
+        </div>
+        <h3>You always know it's running</h3>
+        <p>Every system ships with monitoring and alerts baked in. You see exactly what's happening without logging into the backend.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Fixed price. You own it.</h3>
+        <p>Clear scope, fixed price, no hourly billing. When it's done, the system is yours. No vendor lock-in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section" style="padding-top: 0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono"><span class="dot"></span>3 / Services</span>
+      <h2>What we build.</h2>
+    </div>
+
+    <div class="services-grid">
+      <div class="svc-card">
+        <div class="svc-visual anim-pipeline">
+          <svg viewBox="0 0 200 80" fill="none">
+            <!-- Pipeline: content blocks sliding right -->
+            <rect x="20" y="25" width="160" height="30" rx="4" fill="none" stroke="var(--rule-2)" stroke-width="1" stroke-dasharray="4 3"/>
+            <rect x="155" y="20" width="30" height="40" rx="3" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+            <text x="170" y="44" font-size="7" fill="var(--mute)" text-anchor="middle" font-family="JetBrains Mono">POST</text>
+            <rect class="block" x="30" y="30" width="22" height="20" rx="3" fill="var(--accent)" opacity="0.85"/>
+            <rect class="block" x="58" y="30" width="22" height="20" rx="3" fill="var(--accent)" opacity="0.55"/>
+            <rect class="block" x="86" y="30" width="22" height="20" rx="3" fill="var(--accent)" opacity="0.35"/>
+          </svg>
+        </div>
+        <span class="svc-label">Content</span>
+        <h3>Content Automation</h3>
+        <p>Your team stops scheduling, resizing, and posting by hand. Content goes out daily without anyone touching it.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-visual anim-flow">
+          <svg viewBox="0 0 200 80" fill="none">
+            <!-- CRM flow: form -> arrow -> database -->
+            <rect x="15" y="22" width="36" height="36" rx="4" fill="none" stroke="var(--rule-2)" stroke-width="1.2"/>
+            <line x1="17" y1="32" x2="49" y2="32" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <line x1="17" y1="38" x2="42" y2="38" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <line x1="17" y1="44" x2="46" y2="44" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <text x="33" y="28" font-size="6" fill="var(--mute)" text-anchor="middle" font-family="JetBrains Mono">FORM</text>
+            <line x1="58" y1="40" x2="138" y2="40" stroke="var(--rule-2)" stroke-width="1" stroke-dasharray="3 3"/>
+            <circle class="dot" cx="72" cy="40" r="3" fill="var(--accent)"/>
+            <circle class="dot" cx="95" cy="40" r="3" fill="var(--accent)"/>
+            <circle class="dot" cx="118" cy="40" r="3" fill="var(--accent)"/>
+            <rect x="148" y="22" width="36" height="36" rx="4" fill="none" stroke="var(--accent)" stroke-width="1.2"/>
+            <ellipse cx="166" cy="32" rx="12" ry="5" fill="none" stroke="var(--accent)" stroke-width="0.8"/>
+            <line x1="154" y1="32" x2="154" y2="48" stroke="var(--accent)" stroke-width="0.8"/>
+            <line x1="178" y1="32" x2="178" y2="48" stroke="var(--accent)" stroke-width="0.8"/>
+            <ellipse cx="166" cy="48" rx="12" ry="5" fill="none" stroke="var(--accent)" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <span class="svc-label">Operations</span>
+        <h3>CRM Integration</h3>
+        <p>Forms connect directly to your CRM. No copy-pasting, no duplicates, no missed entries. Your team focuses on clients, not data entry.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-visual anim-fanout">
+          <svg viewBox="0 0 200 80" fill="none">
+            <!-- Outbound: emails fanning with checkmarks -->
+            <rect x="55" y="15" width="28" height="20" rx="2" fill="none" stroke="var(--rule-2)" stroke-width="1"/>
+            <polyline points="55,15 69,26 83,15" stroke="var(--rule-2)" stroke-width="0.8" fill="none"/>
+            <rect x="86" y="30" width="28" height="20" rx="2" fill="none" stroke="var(--rule-2)" stroke-width="1"/>
+            <polyline points="86,30 100,41 114,30" stroke="var(--rule-2)" stroke-width="0.8" fill="none"/>
+            <rect x="117" y="45" width="28" height="20" rx="2" fill="none" stroke="var(--rule-2)" stroke-width="1"/>
+            <polyline points="117,45 131,56 145,45" stroke="var(--rule-2)" stroke-width="0.8" fill="none"/>
+            <circle class="check" cx="88" cy="22" r="6" fill="var(--accent)" opacity="0.9"/>
+            <polyline class="check" points="85,22 87,24 91,20" stroke="var(--paper)" stroke-width="1.2" fill="none"/>
+            <circle class="check" cx="119" cy="37" r="6" fill="var(--accent)" opacity="0.9"/>
+            <polyline class="check" points="116,37 118,39 122,35" stroke="var(--paper)" stroke-width="1.2" fill="none"/>
+            <circle class="check" cx="150" cy="52" r="6" fill="var(--accent)" opacity="0.9"/>
+            <polyline class="check" points="147,52 149,54 153,50" stroke="var(--paper)" stroke-width="1.2" fill="none"/>
+          </svg>
+        </div>
+        <span class="svc-label">Sales</span>
+        <h3>Outbound Systems</h3>
+        <p>Your pipeline fills itself. Prospects researched, emails personalized, quality checked before anything sends.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-visual anim-scan">
+          <svg viewBox="0 0 200 80" fill="none">
+            <!-- Document: scan line sweeps, checkmark appears -->
+            <rect x="60" y="12" width="34" height="44" rx="3" fill="none" stroke="var(--rule-2)" stroke-width="1.2"/>
+            <path d="M68,12 L68,6 L88,6 L94,12" fill="none" stroke="var(--rule-2)" stroke-width="1"/>
+            <line x1="67" y1="22" x2="87" y2="22" stroke="var(--rule-2)" stroke-width="0.7"/>
+            <line x1="67" y1="28" x2="84" y2="28" stroke="var(--rule-2)" stroke-width="0.7"/>
+            <line x1="67" y1="34" x2="86" y2="34" stroke="var(--rule-2)" stroke-width="0.7"/>
+            <line x1="67" y1="40" x2="80" y2="40" stroke="var(--rule-2)" stroke-width="0.7"/>
+            <line class="scanline" x1="62" y1="20" x2="92" y2="20" stroke="var(--accent)" stroke-width="1.5" opacity="0.8"/>
+            <line x1="100" y1="34" x2="122" y2="38" stroke="var(--rule-2)" stroke-width="0.8" stroke-dasharray="3 2"/>
+            <path d="M120,35 L124,38 L119,40" stroke="var(--rule-2)" stroke-width="0.8" fill="none"/>
+            <circle cx="140" cy="42" r="12" fill="none" stroke="var(--accent)" stroke-width="1.2"/>
+            <polyline class="check" points="134,42 138,46 146,38" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+            <text x="140" y="62" font-size="6" fill="var(--mute)" text-anchor="middle" font-family="JetBrains Mono">FILED</text>
+          </svg>
+        </div>
+        <span class="svc-label">Documents</span>
+        <h3>Document Processing</h3>
+        <p>Invoices, reports, and filings go from inbox to archive without anyone touching them. Hours of admin work, gone.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-visual anim-branch">
+          <svg viewBox="0 0 200 80" fill="none">
+            <!-- AI branching: input splits to 3 routes -->
+            <circle cx="40" cy="40" r="8" fill="none" stroke="var(--rule-2)" stroke-width="1.2"/>
+            <text x="40" y="43" font-size="7" fill="var(--mute)" text-anchor="middle" font-family="JetBrains Mono">IN</text>
+            <line x1="48" y1="33" x2="120" y2="18" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <line x1="48" y1="40" x2="120" y2="40" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <line x1="48" y1="47" x2="120" y2="62" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <circle cx="130" cy="18" r="7" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.6"/>
+            <circle cx="130" cy="40" r="7" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.6"/>
+            <circle cx="130" cy="62" r="7" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.6"/>
+            <circle class="traveler" cx="80" cy="26" r="3" fill="var(--accent)"/>
+            <circle class="traveler" cx="80" cy="40" r="3" fill="var(--accent)"/>
+            <circle class="traveler" cx="80" cy="54" r="3" fill="var(--accent)"/>
+            <text x="155" y="21" font-size="5.5" fill="var(--mute)" font-family="JetBrains Mono">ROUTE A</text>
+            <text x="155" y="43" font-size="5.5" fill="var(--mute)" font-family="JetBrains Mono">ROUTE B</text>
+            <text x="155" y="65" font-size="5.5" fill="var(--mute)" font-family="JetBrains Mono">ROUTE C</text>
+          </svg>
+        </div>
+        <span class="svc-label">Intelligence</span>
+        <h3>AI Decision Layers</h3>
+        <p>AI reads, classifies, and routes your data so your team only handles what needs a human. Less noise, faster decisions.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-visual anim-nodes">
+          <svg viewBox="0 0 200 80" fill="none">
+            <!-- Node graph: circles with connecting lines drawing -->
+            <circle cx="50" cy="25" r="8" fill="none" stroke="var(--accent)" stroke-width="1.2"/>
+            <circle cx="100" cy="15" r="8" fill="none" stroke="var(--rule-2)" stroke-width="1.2"/>
+            <circle cx="150" cy="28" r="8" fill="none" stroke="var(--accent)" stroke-width="1.2"/>
+            <circle cx="75" cy="58" r="8" fill="none" stroke="var(--rule-2)" stroke-width="1.2"/>
+            <circle cx="130" cy="60" r="8" fill="none" stroke="var(--accent)" stroke-width="1.2" opacity="0.6"/>
+            <line x1="57" y1="22" x2="93" y2="17" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <line x1="107" y1="18" x2="143" y2="25" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <line x1="54" y1="32" x2="72" y2="52" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <line x1="82" y1="55" x2="123" y2="58" stroke="var(--rule-2)" stroke-width="0.8"/>
+            <circle cx="50" cy="25" r="3" fill="var(--accent)"/>
+            <circle cx="150" cy="28" r="3" fill="var(--accent)"/>
+            <circle cx="130" cy="60" r="2.5" fill="var(--accent)" opacity="0.6"/>
+          </svg>
+        </div>
+        <span class="svc-label">Custom</span>
+        <h3>Custom Workflows</h3>
+        <p>If your team does it repeatedly, we can automate it. Any business process, any tool. Built around how you actually work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section id="about" class="section" style="padding-top: 0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono"><span class="dot"></span>4 / Process</span>
+      <h2>How we work.</h2>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <span class="step-tick"></span>
+        <span class="step-num">01</span>
+        <h3>Discovery</h3>
+        <p>30 minutes. You walk me through what's eating your team's time. I tell you what's worth automating and what isn't. No pitch, just diagnosis.</p>
+      </div>
+      <div class="step">
+        <span class="step-tick"></span>
+        <span class="step-num">02</span>
+        <h3>Scope + Price</h3>
+        <p>You get a clear scope and a fixed price before anything starts. No hourly billing, no surprises. You know what you're paying for.</p>
+      </div>
+      <div class="step">
+        <span class="step-tick"></span>
+        <span class="step-num">03</span>
+        <h3>Build + Test</h3>
+        <p>I build the system and test it against your real data. You see progress weekly. You approve before anything goes live.</p>
+      </div>
+      <div class="step">
+        <span class="step-tick"></span>
+        <span class="step-num">04</span>
+        <h3>Ship + Support</h3>
+        <p>System goes live. I monitor it, fix what breaks, and expand as your needs grow. You never touch the backend.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final reveal">
+  <div class="wrap">
+    <div class="label-row">
+      <span class="mono"><span class="dot"></span>5 / Next Step</span>
+      <span class="mono" style="color: rgba(243,239,231,0.45);">Calendar - 30 min</span>
+    </div>
+    <h2>Ready to stop doing ops by hand?</h2>
+    <p>30-minute call. No pitch deck. Walk me through what's eating your team's time, and I'll tell you if automation makes sense. If it doesn't, I'll say so.</p>
+    <a href="https://calendly.com/mukund-augmentloop/30min" class="btn btn-lg">
+      Book a 30-min call
+      <span class="arrow" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a href="#" class="logo" style="margin-bottom: 16px;">
+          <span class="logo-mark" aria-hidden="true"></span>
+          AugmentLoop
+        </a>
+        <span style="color: var(--mute); font-size: 14px; max-width: 28ch; display: block;">Production automation for agencies that have outgrown duct tape.</span>
+      </div>
+      <div class="foot-col">
+        <span class="mono">Sitemap</span>
+        <a href="#work">Case Studies</a>
+        <a href="#about">Process</a>
+      </div>
+      <div class="foot-col">
+        <span class="mono">Contact</span>
+        <a href="mailto:mukund@augmentloop.com">mukund@augmentloop.com</a>
+        <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div class="foot-col">
+        <span class="mono">Book</span>
+        <a href="https://calendly.com/mukund-augmentloop/30min">30-min discovery call</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">&#169; 2026 AugmentLoop</span>
+      <span class="mono">Built by hand. Run by machines.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Frosted nav on scroll
+  const nav = document.getElementById('nav');
+  document.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 8);
+  }, { passive: true });
+
+  // Accordion
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    const item = header.parentElement;
+    const body = header.nextElementSibling;
+
+    // Set initial state for open items
+    if (item.classList.contains('open')) {
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+
+    header.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+
+      if (isOpen) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          body.style.maxHeight = '0';
+        });
+        item.classList.remove('open');
+        header.setAttribute('aria-expanded', 'false');
+      } else {
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        header.setAttribute('aria-expanded', 'true');
+        body.addEventListener('transitionend', () => {
+          if (item.classList.contains('open')) {
+            body.style.maxHeight = 'none';
+          }
+        }, { once: true });
+      }
+    });
+
+    header.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        header.click();
+      }
+    });
+  });
+
+  // Scroll reveal
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Staggered service card reveal
+  const svcObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const cards = entry.target.querySelectorAll('.svc-card');
+        cards.forEach((card, i) => {
+          setTimeout(() => card.classList.add('visible'), i * 120);
+        });
+        svcObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.services-grid').forEach(el => svcObserver.observe(el));
+
+  // Stat counter animation
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('[data-count]').forEach(el => {
+          const target = parseFloat(el.dataset.count);
+          const isDecimal = target % 1 !== 0;
+          const duration = 1200;
+          const start = performance.now();
+
+          const animate = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = target * eased;
+
+            if (isDecimal) {
+              el.textContent = current.toFixed(1);
+            } else {
+              el.textContent = Math.round(current);
+            }
+
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+        });
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.stats').forEach(el => counterObserver.observe(el));
+
+  // 3D tilt on service cards
+  const tiltCards = document.querySelectorAll('.svc-card');
+  const maxTilt = 4;
+
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(600px) rotateY(${x * maxTilt}deg) rotateX(${-y * maxTilt}deg) translateY(-2px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // Cursor spotlight on interactive sections
+  const spotlightSections = document.querySelectorAll('.why-grid, .services-grid, .steps');
+  spotlightSections.forEach(section => {
+    section.style.position = 'relative';
+    const glow = document.createElement('div');
+    glow.style.cssText = 'position:absolute;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;opacity:0;transition:opacity 300ms ease;background:radial-gradient(circle,rgba(192,101,42,0.08) 0%,transparent 70%)';
+    section.appendChild(glow);
+
+    section.addEventListener('mousemove', e => {
+      const rect = section.getBoundingClientRect();
+      glow.style.left = (e.clientX - rect.left - 140) + 'px';
+      glow.style.top = (e.clientY - rect.top - 140) + 'px';
+      glow.style.opacity = '1';
+    });
+    section.addEventListener('mouseleave', () => {
+      glow.style.opacity = '0';
+    });
+  });
+</script>
+
+</body>
+</html>
