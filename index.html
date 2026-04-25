@@ -471,7 +471,26 @@
     flex-shrink: 0;
   }
   @media (max-width: 760px) {
-    .accordion-preview { display: none; }
+    .accordion-header {
+      flex-wrap: wrap;
+      position: relative;
+      padding-right: 56px;
+    }
+    .accordion-chevron {
+      position: absolute;
+      top: 24px;
+      right: 0;
+    }
+    .accordion-right {
+      flex: 1 1 100%;
+      margin-top: 8px;
+    }
+    .accordion-preview {
+      gap: 16px;
+    }
+    .preview-metric { text-align: left; }
+    .preview-divider { height: 24px; }
+    .pm-value { font-size: 16px; }
   }
 
   .accordion-chevron {
@@ -1034,7 +1053,8 @@
     .hero-sub { font-size: 15.5px; }
     .section { padding: 64px 0; }
     .section-head { padding-bottom: 24px; margin-bottom: 32px; }
-    .accordion-header { padding: 24px 0; }
+    .accordion-header { padding-top: 24px; padding-bottom: 24px; }
+    .accordion-chevron { top: 20px; }
     .accordion-client { font-size: 20px; }
     .accordion-inner { padding-bottom: 28px; }
     .why-card .why-icon { width: 64px; height: 64px; border-radius: 12px; }
